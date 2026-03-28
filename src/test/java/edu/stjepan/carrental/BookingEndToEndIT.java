@@ -17,7 +17,7 @@ import edu.stjepan.carrental.dto.CarDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-class BookingEndToEndTest {
+class BookingEndToEndIT {
 
   @Autowired
   private TestRestTemplate restTemplate;

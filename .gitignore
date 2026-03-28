@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+*.pdf
+bootstrap.md
+CLAUDE.md
+PLAN.md
+NOTES.md
+

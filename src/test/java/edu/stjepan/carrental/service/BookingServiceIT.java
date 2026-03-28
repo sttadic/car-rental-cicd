@@ -18,7 +18,7 @@ import edu.stjepan.carrental.repository.CarRepository;
 
 @SpringBootTest
 @Transactional
-class BookingServiceIntegrationTest {
+class BookingServiceIT {
 
   @Autowired
   private BookingService bookingService;
