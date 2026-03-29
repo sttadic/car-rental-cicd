@@ -75,5 +75,17 @@ pipeline {
             }
         }
 
+        stage('Deploy') {
+            when {
+                branch 'main'
+            }
+            steps {
+                script {
+                    def shortCommit = env.GIT_COMMIT[0..6]
+                    sh "chmod +x deploy.sh && ./deploy.sh ${shortCommit}"
+                }
+            }
+        }
+
     }
 }
