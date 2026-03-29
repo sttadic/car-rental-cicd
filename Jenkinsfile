@@ -35,5 +35,19 @@ pipeline {
             }
         }
 
+        stage('Code Quality') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh './mvnw sonar:sonar'
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                waitForQualityGate abortPipeline: true
+            }
+        }
+
     }
 }
