@@ -63,5 +63,17 @@ pipeline {
             }
         }
 
+        stage('Docker Build') {
+            when {
+                branch 'main'
+            }
+            steps {
+                script {
+                    def shortCommit = env.GIT_COMMIT[0..6]
+                    sh "docker build -t car-rental-api:${shortCommit} -t car-rental-api:latest ."
+                }
+            }
+        }
+
     }
 }
