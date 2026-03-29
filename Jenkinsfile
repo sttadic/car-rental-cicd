@@ -49,5 +49,19 @@ pipeline {
             }
         }
 
+        stage('Integration & E2E Tests') {
+            when {
+                branch 'main'
+            }
+            steps {
+                sh './mvnw failsafe:integration-test failsafe:verify'
+            }
+            post {
+                always {
+                    junit 'target/failsafe-reports/*.xml'
+                }
+            }
+        }
+
     }
 }
