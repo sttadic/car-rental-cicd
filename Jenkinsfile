@@ -94,7 +94,7 @@ pipeline {
             steps {
                 script {
                     def healthy = sh(
-                        script: 'curl --retry 5 --retry-delay 3 -f http://localhost:9090/actuator/health',
+                        script: 'curl --retry 10 --retry-delay 5 --retry-connrefused -f http://car-rental-app:8080/actuator/health',
                         returnStatus: true
                     ) == 0
 

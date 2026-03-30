@@ -10,7 +10,7 @@ echo "Deploying car-rental-api:${IMAGE_TAG} as ${CONTAINER_NAME} on port ${PORT}
 # Record currently running image tag for potential rollback
 PREVIOUS_TAG=$(docker inspect --format='{{index .Config.Image}}' ${CONTAINER_NAME} 2>/dev/null || echo "none")
 echo "Previous image: ${PREVIOUS_TAG}"
-echo "${PREVIOUS_TAG}" > /tmp/car-rental-previous-tag
+echo "${PREVIOUS_TAG#car-rental-api:}" > /tmp/car-rental-previous-tag
 
 # Stop and remove existing container if running
 if docker ps -q -f name=${CONTAINER_NAME} | grep -q .; then
@@ -26,6 +26,7 @@ fi
 echo "Starting new container..."
 docker run -d \
     --name ${CONTAINER_NAME} \
+    --network car-rental-cicd_cicd \
     -p ${PORT}:8080 \
     car-rental-api:${IMAGE_TAG}
 
