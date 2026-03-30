@@ -87,5 +87,30 @@ pipeline {
             }
         }
 
+        stage('Smoke Test') {
+            when {
+                branch 'main'
+            }
+            steps {
+                script {
+                    def healthy = sh(
+                        script: 'curl --retry 5 --retry-delay 3 -f http://localhost:9090/actuator/health',
+                        returnStatus: true
+                    ) == 0
+
+                    if (!healthy) {
+                        def previousTag = sh(script: 'cat /tmp/car-rental-previous-tag', returnStdout: true).trim()
+                        if (previousTag != 'none' && previousTag != '') {
+                            echo "Smoke test failed — rolling back to ${previousTag}"
+                            sh "chmod +x deploy.sh && ./deploy.sh ${previousTag}"
+                        } else {
+                            echo "Smoke test failed — no previous image to roll back to"
+                        }
+                        error('Smoke test failed: application did not become healthy')
+                    }
+                }
+            }
+        }
+
     }
 }
